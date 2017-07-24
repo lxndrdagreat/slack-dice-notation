@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Roll Dice!</title>
+</head>
+<body>
+
+    <h4><em>{{ roll }}</em></h4>
+
+    <table>
+        <tbody>
+            {% for step in steps %}
+            <tr>
+                <td>
+                    {{ step['op'] }}
+                </td>
+                <td style="text-align: right;">
+                    {{ step['dice'] }}
+                </td>
+                <td style="text-align: right;">
+                    {{ step['roll'] }}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h1>{{ total }}</h1>
+
+    <form action="/" method="get">
+        <input type="text" value="{{ roll }}" name="roll"/>
+        <button type="submit">Roll!</button>
+    </form>
+
+    <h3>Info</h3>
+    <p>
+        Accepts dice notation, including addition, subtraction, multiplication and division. Whitespace is optional.
+    </p>
+    <h3>Examples</h3>
+    <p>
+        <ul>
+            <li>1d20 + 5 <a href="/?roll=1d20%2B5">roll!</a></li>
+            <li>5d4 + 4d6 - 3d8 * 2d10 / 2 + d12 <a href="/?roll=5d4%2B4d6-3d8*2d10%2F2%2Bd12">roll!</a></li>
+        </ul>
+    </p>
+
+    <h3>More Info</h3>
+    <p>
+        For more information, check out the <a href="https://github.com/lxndrdagreat/slack-dice-notation" target="_blank">GitHub Repo</a>
+    </p>
+
+</body>
+</html>
