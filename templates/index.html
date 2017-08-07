@@ -3,6 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <title>Roll Dice!</title>
+
+    <style>
+        .die {
+            position: relative;
+            display: inline-block;
+            padding: 0;
+            vertical-align: middle;
+            text-align: center;
+            font-weight: bold;
+            border: 2px solid #333;
+            border-radius: 4px;
+            margin: 0 1rem 1rem 0;
+            width: 2rem;
+            height: 2rem;
+        }
+
+        .die span {
+            display: block;
+            text-align: center;
+            width: 100%;
+            position: absolute;
+            top: 25%;
+        }
+    </style>
 </head>
 <body>
 
@@ -45,10 +69,64 @@
         </ul>
     </p>
 
+    <h3>Roll Dice!</h3>
+    <div>
+        <p>
+            <button onclick="rollDie('1d4');">d4</button>
+            <button onclick="rollDie('1d6');">d6</button>
+            <button onclick="rollDie('1d8');">d8</button>
+            <button onclick="rollDie('1d10');">d10</button>
+            <button onclick="rollDie('1d12');">d12</button>
+            <button onclick="rollDie('1d20');">d20</button>
+            <button onclick="rollDie('1d100');">d100</button>
+        </p>
+
+        <div id="diceTable"></div>
+    </div>
+
     <h3>More Info</h3>
     <p>
         For more information, check out the <a href="https://github.com/lxndrdagreat/slack-dice-notation" target="_blank">GitHub Repo</a>
     </p>
+
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script type="text/javascript">
+        var runningTotal = 0;
+
+        var diceTable = document.getElementById('diceTable');
+
+        function rollDie(die){
+            console.log("roll", die);
+
+            axios.post('/?roll='+die)
+                .then(function(response){
+                    var result = response.data;
+                    var total = result.total;
+                    addDie(die, total);
+                })
+                .catch(function(error){
+                   console.log(error);
+                });
+        }
+
+        function addDie(die, value) {
+            var div = document.createElement('div');
+            div.classList.add('die');
+
+            var span = document.createElement('span');
+            span.textContent = value;
+            div.appendChild(span);
+            diceTable.appendChild(div);
+        }
+
+        function updateTotal(amount) {
+            runningTotal += amount;
+            // TODO: update UI
+        }
+
+    </script>
 
 </body>
 </html>
